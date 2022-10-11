@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:node" : "nodemon nodejs.js",
-    "start:express" : "nodemon express.js",
+    "start": "nodemon index.js",
+    "start:node": "nodemon nodejs.js",
+    "start:express": "nodemon express.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
