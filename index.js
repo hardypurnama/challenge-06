@@ -4,11 +4,12 @@ const Motor = require('./modules/motor'); //import file /modules/motor.js
 
 const PORT = process.env.PORT || 8000;
 
-const motor = new Motor(); // spread dan instantiate class Motor
+const motor = new Motor(); // instantiate class Motor
 
 app.use(express.json()); // untuk membaca req.body dengan data berbentuk json
 
-app.use('/motors',  (...args) => motor.handleGetMotors(...args)); // get Motors (ambil semua data motor)
+//endpoint CRUD motor
+app.get('/motors',  (...args) => motor.handleGetMotors(...args)); // get Motors (ambil semua data motor)
 app.get('/motor/:id', (...args) => motor.handleGetMotor(...args)); // get motor/:id (ambil data motor by id)
 app.post('/motor', (...args) => motor.handleCreateMotor(...args)); // post motor (menambahkan data motor)
 app.put('/motor/:id', (...args) => motor.handleUpdateMotor(...args)); // put motor/:id (mengedit data motor by id)
