@@ -1,4 +1,5 @@
 // folder modules/motor.js
+const db = require('../helper/db');
 class Motor{
     #motors = [
         {
@@ -23,17 +24,32 @@ class Motor{
     } 
 
     handleGetMotors(req, res){
-        console.log(this.#motors);
-        res.send(JSON.stringify(this.#motors))
+        db.query(
+            'SELECT * FROM `motor`',
+            function(err, results, fields) {
+              console.log(results); // results contains rows returned by server
+              res.send(JSON.stringify(results))
+            }
+        );
+        
     }
 
     handleGetMotor(req, res){
-        const motor = this.#motors.find(el => el.id == req.params.id);
-        res.send(JSON.stringify(motor))
+        // const motor = this.#motors.find(el => el.id == req.params.id);
+        db.query(
+            'SELECT * FROM `motor` where id=?',
+            [req.params.id],
+            function(err, results, fields) {
+              console.log(results); // results contains rows returned by server
+              res.send(JSON.stringify(results))
+            }
+        );
     }
 
     // karena menggunakan method selain GET harus di coba di postman
     handleCreateMotor(req, res){
+        // 'INSERT INTO (nama, manufaktur, tgl_pembuatan) VALUES (?,?,?)'
+        // [req.body.nama, req.body.manufaktur, req.body.tgl_pembuatan]
         const motors = this.#motors
         req.body.id = motors[motors.length - 1].id + 1;
         this.#motors.push(req.body);
@@ -52,10 +68,17 @@ class Motor{
 
     // karena menggunakan method selain GET harus di coba di postman
     handleDeleteMotor(req, res){
-        const index = this.#motors.findIndex(el => el.id == req.params.id);
-        this.#motors.splice(index, 1)
-        console.log(this.#motors);
-        res.send('Data Deleted!');
+        // const index = this.#motors.findIndex(el => el.id == req.params.id);
+        // this.#motors.splice(index, 1)
+        // console.log(this.#motors);
+        db.query(
+            'DELETE FROM `motor` where id=?',
+            [req.params.id],
+            function(err, results, fields) {
+              console.log(results); // results contains rows returned by server
+              res.send('Data Deleted!');
+            }
+        );
     }
 
 }

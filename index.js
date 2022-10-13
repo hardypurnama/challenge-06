@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const Motor = require('./modules/motor'); //import file /modules/motor.js
+// const db = require('./helper/db');
 
 const PORT = process.env.PORT || 8000;
 
