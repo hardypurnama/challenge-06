@@ -1,6 +1,26 @@
 // folder modules/motor.js
 const db = require('../helper/db');
-class Motor{
+
+class MotorV2{
+    #motors = [
+        {
+            id: 0,
+            nama: 'BEAT Fi',
+            transmisi: 'Matic',
+            manufaktur: 'Honda',
+            tgl_pembuatan: '2022-10-11',
+            img: '',
+        },
+        {
+            id: 2,
+            nama: 'BEAT STREET',
+            transmisi: 'Matic',
+            manufaktur: 'Honda',
+            tgl_pembuatan: '2022-11-11',
+            img: '',
+        },
+    ];
+
     constructor(){
     } 
 
@@ -31,12 +51,10 @@ class Motor{
     handleCreateMotor(req, res){
         // 'INSERT INTO (nama, manufaktur, tgl_pembuatan) VALUES (?,?,?)'
         // [req.body.nama, req.body.manufaktur, req.body.tgl_pembuatan]
-        const img = req.body.foto ? req.body.foto : handleUpload(req.body.foto)
-        console.log(img);
         db.query(
             `INSERT INTO motor (nama, transmisi, manufaktur, tgl_pembuatan, foto, harga_sewa, created_by) 
             VALUES (?, ?, ?, ?, ?, ?, ?)`,
-            [req.body.nama, req.body.transmisi, req.body.manufaktur, req.body.tgl_pembuatan, img, req.body.harga_sewa, 'admin'],
+            [req.body.nama, req.body.transmisi, req.body.manufaktur, req.body.tgl_pembuatan, req.body.foto, req.body.harga_sewa, 'admin'],
             function(err, results, fields) {
               console.log(err, results); // results contains rows returned by server
               res.send('Data Ditambahkan!')
@@ -47,11 +65,9 @@ class Motor{
     // karena menggunakan method selain GET harus di coba di postman
     handleUpdateMotor(req, res){
         // menggunakan req.params.id & req.body
-        const img = req.body.foto ? req.body.foto : handleUpload(req.body.foto)
-        console.log(img);
         db.query(
             `UPDATE motor SET nama=?, transmisi=?, manufaktur=?, tgl_pembuatan=?, foto=?, harga_sewa=?, updated_by=?`,
-            [req.body.nama, req.body.transmisi, req.body.manufaktur, req.body.tgl_pembuatan, img, req.body.harga_sewa, 'admin'],
+            [req.body.nama, req.body.transmisi, req.body.manufaktur, req.body.tgl_pembuatan, req.body.foto, req.body.harga_sewa, 'admin'],
             function(err, results, fields) {
               console.log(results); // results contains rows returned by server
               res.send('Data Updated!')
