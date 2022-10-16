@@ -8,8 +8,9 @@
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container">
-        <form id="add" action="http://localhost:8000/api/v1/motors/" method="post" onsubmit="handleAdd(event, this)">
+    <div class="container" id="update">
+        <form id="add" action="http://localhost:8000/api/v1/motors/" method="put" onsubmit="handleEdit(event, this)">
+            <input type="hidden" id="id">
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Nama</label>
                 <input type="text" class="form-control" name="nama" id="nama" placeholder="nama">

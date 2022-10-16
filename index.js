@@ -8,7 +8,8 @@ const { uploadMiddleware } = require('./helper/multer');
 const Motor = require('./modules/motor'); //import file /modules/motor.js
 const Uploads = require('./modules/upload');
 // const db = require('./helper/db');
-app.use(express.static('public'));
+
+const publicDir = path.join(__dirname, "public")
 
 const PORT = process.env.PORT || 8000;
 
@@ -16,11 +17,13 @@ const motor = new Motor(); // instantiate class Motor
 // const motorV2 = new MotorV2();
 const upload = new Uploads();
 
-app.use(express.urlencoded({extended:false})); // untuk membaca req.body dengan data dalam bentuk form data
 app.use(express.json()); // untuk membaca req.body dengan data berbentuk json
+app.use(express.urlencoded({extended:true})); // untuk membaca req.body dengan data dalam bentuk form data
 
 //endpoint static
 app.use('/', express.static('public')); //serve index.html
+app.use('/add', express.static(publicDir + '/add.html')); //serve index.html
+app.use('/update/:id', express.static(publicDir + '/update.html'))
 app.use('/bootstrap', express.static(path.join(__dirname, "node_modules/bootstrap/dist/"))) //serve bootstrap
 
 app.post('/api/v1/uploads', uploadMiddleware, (...args) => upload.handleUpload(...args)) 

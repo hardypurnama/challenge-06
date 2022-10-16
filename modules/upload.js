@@ -5,15 +5,25 @@ class Uploads{
     handleUpload(req, res){
         const file = dataUri(req);
         let url = ''
-        console.log(file);
         uploader.upload(file, (err, result) => {
             if(err){
-                console.log(err)
+                // console.log(err)
                 throw new Error('Gagal Upload!');
             }
 
-            res.send(result.url)
-        })
+            res.status(200)
+                .json({
+                    message: "image uploaded!",
+                    data: result.url
+                })
+
+        }).catch((err) => 
+            res.status(400)
+                .json({
+                    message: 'someting went wrong while processing your request',
+                    data: {err}
+                })
+        );
     }
 }
 
