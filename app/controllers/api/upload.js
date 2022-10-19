@@ -1,10 +1,9 @@
-const { cloudinaryConfig, uploader } = require('../helper/cloudinary')
-const { dataUri } = require('../helper/multer')
+const { cloudinaryConfig, uploader } = require('../../helper/cloudinary')
+const { dataUri } = require('../../helper/multer')
 
 class Uploads{
     handleUpload(req, res){
         const file = dataUri(req);
-        let url = ''
         uploader.upload(file, (err, result) => {
             if(err){
                 // console.log(err)

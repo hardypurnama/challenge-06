@@ -1,12 +1,12 @@
 require('dotenv').config();
 
-const { urlencoded } = require('express');
 const express = require('express');
 const path = require('path');
 const app = express();
-const { uploadMiddleware } = require('./helper/multer');
-const Motor = require('./modules/motor'); //import file /modules/motor.js
-const Uploads = require('./modules/upload');
+const { uploadMiddleware } = require('./app/helper/multer');
+const Motor = require('./app/controllers/api/v1/motor'); //import file /modules/motor.js 
+const Uploads = require('./app/controllers/api/upload');
+const controllers = require('./app/controllers');
 // const db = require('./helper/db');
 
 const publicDir = path.join(__dirname, "public")
@@ -26,6 +26,7 @@ app.use('/add', express.static(publicDir + '/add.html')); //serve index.html
 app.use('/update/:id', express.static(publicDir + '/update.html'))
 app.use('/bootstrap', express.static(path.join(__dirname, "node_modules/bootstrap/dist/"))) //serve bootstrap
 
+//endpoint Uploads
 app.post('/api/v1/uploads', uploadMiddleware, (...args) => upload.handleUpload(...args)) 
 
 //endpoint API sql (query)
@@ -36,11 +37,11 @@ app.put('/api/v1/motors/:id', (...args) => motor.handleUpdateMotor(...args)); //
 app.delete('/api/v1/motors/:id', (...args) => motor.handleDeleteMotor(...args)); // delete motor/:id (delete data motor by id)
 
 //endpoint API sequelize
-// app.get('/api/v2/motors',  (...args) => motor.handleGetMotors(...args)); // get Motors (ambil semua data motor)
-// app.get('/api/v2/motors/:id', (...args) => motor.handleGetMotor(...args)); // get motor/:id (ambil data motor by id)
-// app.post('/api/v2/motors', (...args) => motor.handleCreateMotor(...args)); // post motor (menambahkan data motor)
-// app.put('/api/v2/motors/:id', (...args) => motor.handleUpdateMotor(...args)); // put motor/:id (mengedit data motor by id)
-// app.delete('/api/v2/motors/:id', (...args) => motor.handleDeleteMotor(...args)); // delete motor/:id (delete data motor by id)
+app.get('/api/v2/motors',  controllers.api.v2.motorController.list); // get Motors (ambil semua data motor)
+app.get('/api/v2/motors/:id', controllers.api.v2.motorController.show); // get motor/:id (ambil data motor by id)
+app.post('/api/v2/motors', controllers.api.v2.motorController.create); // post motor (menambahkan data motor)
+app.put('/api/v2/motors/:id', controllers.api.v2.motorController.update); // put motor/:id (mengedit data motor by id)
+app.delete('/api/v2/motors/:id', controllers.api.v2.motorController.destroy); // delete motor/:id (delete data motor by id)
 
 app.use((req, res) => {
     res.send("404 Not Found");

@@ -1,5 +1,5 @@
 // folder modules/motor.js
-const db = require('../helper/db');
+const db = require('../../../helper/db');
 class Motor{
     constructor(){
     } 

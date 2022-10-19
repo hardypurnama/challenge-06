@@ -2,13 +2,13 @@ const app = document.getElementById('app');
 const update = document.getElementById('update');
 const fileForm = document.getElementById('file')
 const render = (el, html) => { el.innerHTML = html }
-
 init();
 
-function init(){
+async function init(){
     if(app){
         let html = ''
-        fetch('http://localhost:8000/api/v1/motors')
+        console.log(Date.now())
+        fetch('http://localhost:8000/api/v1/motor')
             .then((res) => res.json())
             .then((data) => {
                 console.log(data);
@@ -29,15 +29,12 @@ function init(){
                     </div>`
                 });
                 render(app, html);
-            });
+            })
+            .catch(err => console.log(err))
     }
     if(update){
         onEdit();
     }
-}
-
-function add(){
-
 }
 
 function handleUpload(e){
@@ -70,13 +67,13 @@ function handleAdd(e, form){
         `)
         return;
     }
-
+    
     fetch(form.action, {
         headers: { "Content-Type": "application/json" },
         method:'post', 
         body: JSON.stringify(value)
     })
-        .then(res => res.json())
+        .then(function(res) { return res.json() })
         .then(res => {
             console.log(res);
             document.body.insertAdjacentHTML('afterbegin', `
