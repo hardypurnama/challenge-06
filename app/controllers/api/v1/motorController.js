@@ -1,40 +1,17 @@
 // folder modules/motor.js
-const db = require('../helper/db');
+const db = require('../../../../config/db');
 
-class MotorV2{
-    #motors = [
-        {
-            id: 0,
-            nama: 'BEAT Fi',
-            transmisi: 'Matic',
-            manufaktur: 'Honda',
-            tgl_pembuatan: '2022-10-11',
-            img: '',
-        },
-        {
-            id: 2,
-            nama: 'BEAT STREET',
-            transmisi: 'Matic',
-            manufaktur: 'Honda',
-            tgl_pembuatan: '2022-11-11',
-            img: '',
-        },
-    ];
-
-    constructor(){
-    } 
-
+module.exports = {
     handleGetMotors(req, res){
         db.query(
             'SELECT * FROM `motor`',
             function(err, results, fields) {
               console.log(results); // results contains rows returned by server
-              res.send(JSON.stringify(results))
+              res.json(results)
             }
         );
         
-    }
-
+    },
     handleGetMotor(req, res){
         // const motor = this.#motors.find(el => el.id == req.params.id);
         db.query(
@@ -42,11 +19,10 @@ class MotorV2{
             [req.params.id],
             function(err, results, fields) {
               console.log(results); // results contains rows returned by server
-              res.send(JSON.stringify(results))
+              res.json(results)
             }
         );
-    }
-
+    },
     // karena menggunakan method selain GET harus di coba di postman
     handleCreateMotor(req, res){
         // 'INSERT INTO (nama, manufaktur, tgl_pembuatan) VALUES (?,?,?)'
@@ -57,24 +33,22 @@ class MotorV2{
             [req.body.nama, req.body.transmisi, req.body.manufaktur, req.body.tgl_pembuatan, req.body.foto, req.body.harga_sewa, 'admin'],
             function(err, results, fields) {
               console.log(err, results); // results contains rows returned by server
-              res.send('Data Ditambahkan!')
+              res.json('Data Ditambahkan!')
             }
         );
-    }
-
+    },
     // karena menggunakan method selain GET harus di coba di postman
     handleUpdateMotor(req, res){
         // menggunakan req.params.id & req.body
         db.query(
-            `UPDATE motor SET nama=?, transmisi=?, manufaktur=?, tgl_pembuatan=?, foto=?, harga_sewa=?, updated_by=?`,
-            [req.body.nama, req.body.transmisi, req.body.manufaktur, req.body.tgl_pembuatan, req.body.foto, req.body.harga_sewa, 'admin'],
+            `UPDATE motor SET nama=?, transmisi=?, manufaktur=?, tgl_pembuatan=?, foto=?, harga_sewa=?, updated_by=? where id=?`,
+            [req.body.nama, req.body.transmisi, req.body.manufaktur, req.body.tgl_pembuatan, req.body.foto, req.body.harga_sewa, 'admin', req.params.id],
             function(err, results, fields) {
               console.log(results); // results contains rows returned by server
-              res.send('Data Updated!')
+              res.json('Data Updated!')
             }
         );
-    }
-
+    },
     // karena menggunakan method selain GET harus di coba di postman
     handleDeleteMotor(req, res){
         // const index = this.#motors.findIndex(el => el.id == req.params.id);
@@ -85,11 +59,8 @@ class MotorV2{
             [req.params.id],
             function(err, results, fields) {
               console.log(results); // results contains rows returned by server
-              res.send('Data Deleted!');
+              res.json('Data Deleted!');
             }
         );
     }
-
 }
-
-module.exports = Motor;

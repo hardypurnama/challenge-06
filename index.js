@@ -1,52 +1,9 @@
 require('dotenv').config();
 
-const express = require('express');
-const path = require('path');
-const app = express();
-const { uploadMiddleware } = require('./app/helper/multer');
-const Motor = require('./app/controllers/api/v1/motor'); //import file /modules/motor.js 
-const Uploads = require('./app/controllers/api/upload');
-const controllers = require('./app/controllers');
-// const db = require('./helper/db');
+const app = require("./app")
+const port = process.env.PORT || 8000;
 
-const publicDir = path.join(__dirname, "public")
+app.listen(port, () => {
+  console.log(`Listening on http://localhost:${port}`)
+})
 
-const PORT = process.env.PORT || 8000;
-
-const motor = new Motor(); // instantiate class Motor
-// const motorV2 = new MotorV2();
-const upload = new Uploads();
-
-app.use(express.json()); // untuk membaca req.body dengan data berbentuk json
-app.use(express.urlencoded({extended:true})); // untuk membaca req.body dengan data dalam bentuk form data
-
-//endpoint static
-app.use('/', express.static('public')); //serve index.html
-app.use('/add', express.static(publicDir + '/add.html')); //serve index.html
-app.use('/update/:id', express.static(publicDir + '/update.html'))
-app.use('/bootstrap', express.static(path.join(__dirname, "node_modules/bootstrap/dist/"))) //serve bootstrap
-
-//endpoint Uploads
-app.post('/api/v1/uploads', uploadMiddleware, (...args) => upload.handleUpload(...args)) 
-
-//endpoint API sql (query)
-app.get('/api/v1/motors',  (...args) => motor.handleGetMotors(...args)); // get Motors (ambil semua data motor)
-app.get('/api/v1/motors/:id', (...args) => motor.handleGetMotor(...args)); // get motor/:id (ambil data motor by id)
-app.post('/api/v1/motors', (...args) => motor.handleCreateMotor(...args)); // post motor (menambahkan data motor)
-app.put('/api/v1/motors/:id', (...args) => motor.handleUpdateMotor(...args)); // put motor/:id (mengedit data motor by id)
-app.delete('/api/v1/motors/:id', (...args) => motor.handleDeleteMotor(...args)); // delete motor/:id (delete data motor by id)
-
-//endpoint API sequelize
-app.get('/api/v2/motors',  controllers.api.v2.motorController.list); // get Motors (ambil semua data motor)
-app.get('/api/v2/motors/:id', controllers.api.v2.motorController.show); // get motor/:id (ambil data motor by id)
-app.post('/api/v2/motors', controllers.api.v2.motorController.create); // post motor (menambahkan data motor)
-app.put('/api/v2/motors/:id', controllers.api.v2.motorController.update); // put motor/:id (mengedit data motor by id)
-app.delete('/api/v2/motors/:id', controllers.api.v2.motorController.destroy); // delete motor/:id (delete data motor by id)
-
-app.use((req, res) => {
-    res.send("404 Not Found");
-});
-  
-app.listen(PORT, () => {
-    console.log(`Express Server Started at : http://localhost:${PORT}`);
-});

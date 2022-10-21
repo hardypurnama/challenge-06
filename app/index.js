@@ -1,11 +1,6 @@
-/**
- * @file Bootstrap express.js server
- * @author Fikri Rahmat Nurhidayat
- */
-
 const express = require("express");
 const morgan = require("morgan");
-const router = require("../config/routes");
+const router = require("../routes");
 
 const app = express();
 
@@ -14,6 +9,9 @@ app.use(morgan("dev"));
 
 /** Install JSON request parser */
 app.use(express.json());
+
+/** Install Form Data request parser */
+app.use(express.urlencoded({extended:true}));
 
 /** Install Router */
 app.use(router);
