@@ -1,38 +1,76 @@
 const express = require("express");
-const path = require("path")
-const swaggerUi = require('swagger-ui-express');
+const path = require("path");
+const swaggerUi = require("swagger-ui-express");
 const controllers = require("../app/controllers");
-const swaggerDocument = require('../swagger.json');
+const swaggerDocument = require("../swagger.json");
 const apiRouter = express.Router();
 
-const publicDir = path.join(process.cwd(), "public")
+const publicDir = path.join(process.cwd(), "public");
 
-apiRouter.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+apiRouter.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //endpoint static
-apiRouter.use('/', express.static('public')); //serve index.html
-apiRouter.use('/add', express.static(publicDir + '/add.html')); //serve index.html
-apiRouter.use('/update/:id', express.static(publicDir + '/update.html'))
-apiRouter.use('/bootstrap', express.static(path.join(__dirname, "node_modules/bootstrap/dist/"))) //serve bootstrap
+apiRouter.use("/", express.static("public"));
+apiRouter.use("/add", express.static(publicDir));
+apiRouter.use("/update/:id", express.static(publicDir));
+apiRouter.use(
+  "/bootstrap",
+  express.static(path.join(__dirname, "node_modules/bootstrap/dist/"))
+);
 
 //endpoint Uploads
-apiRouter.use('/api/uploads', controllers.api.upload.onUpload) 
+apiRouter.use("/api/uploads", controllers.api.upload.onUpload);
 
-//endpoint API sql (query)
-apiRouter.get('/api/v1/motors',  controllers.api.v1.motorController.handleGetMotors); // get Motors (ambil semua data motor)
-apiRouter.get('/api/v1/motors/:id', controllers.api.v1.motorController.handleGetMotor); // get motor/:id (ambil data motor by id)
-apiRouter.post('/api/v1/motors', controllers.api.v1.motorController.handleCreateMotor); // post motor (menambahkan data motor)
-apiRouter.put('/api/v1/motors/:id', controllers.api.v1.motorController.handleUpdateMotor); // put motor/:id (mengedit data motor by id)
-apiRouter.delete('/api/v1/motors/:id', controllers.api.v1.motorController.handleDeleteMotor); // delete motor/:id (delete data motor by id)
+//endpoint API sql (query) mobil
+apiRouter.get(
+  "/api/firstControl/mobils",
+  controllers.api.firstControl.mobilController.handleGetMobils
+);
+apiRouter.get(
+  "/api/firstControl/mobils/:id",
+  controllers.api.firstControl.mobilController.handleGetMobil
+);
+apiRouter.post(
+  "/api/firstControl/mobils",
+  controllers.api.firstControl.mobilController.handleCreateMobil
+);
+apiRouter.put(
+  "/api/firstControl/mobils/:id",
+  controllers.api.firstControl.mobilController.handleUpdateMobil
+);
+apiRouter.delete(
+  "/api/firstControl/mobils/:id",
+  controllers.api.firstControl.mobilController.handleDeleteMobil
+);
 
-//endpoint API sequelize
-apiRouter.get('/api/v2/motors',  controllers.api.v2.motorController.list); // get Motors (ambil semua data motor)
-apiRouter.get('/api/v2/motors/:id', controllers.api.v2.motorController.show); // get motor/:id (ambil data motor by id)
-apiRouter.post('/api/v2/motors', controllers.api.v2.motorController.create); // post motor (menambahkan data motor)
-apiRouter.put('/api/v2/motors/:id', controllers.api.v2.motorController.update); // put motor/:id (mengedit data motor by id)
-apiRouter.delete('/api/v2/motors/:id', controllers.api.v2.motorController.destroy); // delete motor/:id (delete data motor by id)
+//endpoint API sequelize mobil
+apiRouter.get(
+  "/api/SecondControl/mobils",
+  controllers.api.SecondControl.mobilController.list
+);
+apiRouter.get(
+  "/api/SecondControl/mobils/:id",
+  controllers.api.SecondControl.mobilController.show
+);
+apiRouter.post(
+  "/api/SecondControl/mobils",
+  controllers.api.SecondControl.mobilController.create
+);
+apiRouter.put(
+  "/api/SecondControl/mobils/:id",
+  controllers.api.SecondControl.mobilController.update
+);
+apiRouter.delete(
+  "/api/SecondControl/mobils/:id",
+  controllers.api.SecondControl.mobilController.destroy
+);
 
-apiRouter.get("/api/v1/errors", () => {
+apiRouter.post(
+  "/api/SecondControl/register",
+  controllers.api.SecondControl.authController.register
+);
+
+apiRouter.get("/api/firstControl/errors", () => {
   throw new Error(
     "The Industrial Revolution and its consequences have been a disaster for the human race."
   );

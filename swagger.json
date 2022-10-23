@@ -1,267 +1,256 @@
 {
-    "openapi": "3.0.3",
-    "info": {
-        "title": "Rent Motor - OpenAPI 3.0",
-        "description": "Rent Motor API Documentation",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "email": "apiteam@swagger.io"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
-        "version": "1.0.11"
+  "info": {
+    "title": "sewa Mobil",
+    "description": "dokumentasi API sewa mobil",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "apiteam@swagger.io"
     },
-    "externalDocs": {
-        "description": "Find out more about Swagger",
-        "url": "http://swagger.io"
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "servers": [{
-        "url": "http://localhost:8000"
-    }],
-    "tags": [{
-        "name": "Motor",
-        "description": "Everything about your Motor"
-    }],
-    "paths": {
-        "/api/v2/motors": {
-            "get": {
-                "tags": [
-                    "Motor"
-                ],
-                "summary": "Get all motor",
-                "description": "Get all data motor",
-                "operationId": "getMotor",
-                "responses": {
-                    "200": {
-                        "description": "Successful",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Motor"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Motor not found"
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "Motor"
-                ],
-                "summary": "Add a new motor to database",
-                "description": "Add a new motor to database",
-                "operationId": "addMotor",
-                "requestBody": {
-                    "description": "Add a new motor to database",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Motor"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Motor"
-                                }
-                            }
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid input"
-                    }
-                }
-            }
-        },
-        "/api/v2/motors/{id}": {
-            "get": {
-                "tags": [
-                    "Motor"
-                ],
-                "summary": "Find motor by ID",
-                "description": "Returns a single motor",
-                "operationId": "getMotorById",
-                "parameters": [{
-                    "name": "id",
-                    "in": "path",
-                    "description": "ID of motor to return",
-                    "required": true,
-                    "schema": {
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                }],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Motor"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid ID supplied"
-                    },
-                    "404": {
-                        "description": "Motor not found"
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "Motor"
-                ],
-                "summary": "Updates a motor in the database with form data",
-                "description": "",
-                "operationId": "updateMotorWithForm",
-                "parameters": [{
-                    "name": "id",
-                    "in": "path",
-                    "description": "ID of motor that needs to be updated",
-                    "required": true,
-                    "schema": {
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                }],
-                "requestBody": {
-                    "description": "Add a new motor to database",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Motor"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "405": {
-                        "description": "Invalid input"
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Motor"
-                ],
-                "summary": "Deletes a motor",
-                "description": "delete a motor",
-                "operationId": "deletePet",
-                "parameters": [{
-                    "name": "id",
-                    "in": "path",
-                    "description": "ID of motor that needs to be deleted",
-                    "required": true,
-                    "schema": {
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                }],
-                "responses": {
-                    "400": {
-                        "description": "Invalid pet value"
-                    }
-                }
-            }
-        }
-    },
-    "components": {
-        "schemas": {
-            "Motor": {
-                "required": [
-                    "model"
-                ],
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 10
-                    },
-                    "model": {
-                        "type": "string",
-                        "example": "Beat"
-                    },
-                    "manufaktur": {
-                        "type": "string",
-                        "example": "Honda"
-                    },
-                    "transmisi": {
-                        "type": "string",
-                        "example": "Matic"
-                    },
-                    "tglPembuatan": {
-                        "type": "string",
-                        "example": "2022-10-20T00:00:00.000Z"
-                    },
-                    "foto": {
-                        "type": "string",
-                        "example": "http://cloudinary"
-                    },
-                    "hargaSewa": {
-                        "type": "number",
-                        "example": 50000
-                    },
-                    "createdBy": {
-                        "type": "string",
-                        "example": "admin"
-                    },
-                    "updatedBy": {
-                        "type": "string",
-                        "example": "admin"
-                    },
-                    "createdAt": {
-                        "type": "string",
-                        "example": "2022-10-20T00:00:00.000Z"
-                    },
-                    "updatedAt": {
-                        "type": "string",
-                        "example": "2022-10-20T00:00:00.000Z"
-                    }
-                }
-            },
-            "ApiResponse": {
-                "type": "object",
-                "properties": {
-                    "code": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "type": {
-                        "type": "string"
-                    },
-                    "message": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "requestBodies": {
-            "Motor": {
-                "description": "Pet object that needs to be added to the store",
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "$ref": "#/components/schemas/Motor"
-                        }
-                    }
-                }
-            }
-        }
+    "version": "1.0.11"
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8005"
     }
+  ],
+  "tags": [
+    {
+      "name": "Mobil",
+      "description": "Sewa Mobil API"
+    }
+  ],
+  "paths": {
+    "/api/SecondControl/mobils": {
+      "get": {
+        "tags": ["Mobil"],
+        "summary": "data mobil keseluruhan",
+        "description": "data mobil keseluruhan",
+        "operationId": "getMobil",
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mobil"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Motor tidak ditemukan"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Mobil"],
+        "summary": "menambahkan data mobil ke db",
+        "description": "menambahkan data mobil ke db",
+        "operationId": "addMobil",
+        "requestBody": {
+          "description": "menambahkan data mobil ke db",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mobil"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mobil"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "data input tidak sesuai"
+          }
+        }
+      }
+    },
+    "/api/SecondControl/mobils/{id}": {
+      "get": {
+        "tags": ["Mobil"],
+        "summary": "get mobil berdasarkan ID",
+        "description": "get mobil berdasarkan ID",
+        "operationId": "getMobilById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID Mobil",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mobil"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ID Invalid"
+          },
+          "404": {
+            "description": "Mobil Tidak ada"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Mobil"],
+        "summary": "Updates mobil di db",
+        "description": "",
+        "operationId": "updateMobilWithForm",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID yang akan di update",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "menambahkan data mobil ke db",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mobil"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "405": {
+            "description": "salah input"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Mobil"],
+        "summary": "Hapus data mobil",
+        "description": "Hapus data mobil",
+        "operationId": "deletecar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID Mobil yang akan dihapus",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid car value"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Motor": {
+        "required": ["model"],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "nama": {
+            "type": "string",
+            "example": "Avanza"
+          },
+          "sewaperhari": {
+            "type": "decimal",
+            "example": "500000"
+          },
+          "ukuran": {
+            "type": "string",
+            "example": "sedang"
+          },
+          "foto": {
+            "type": "string",
+            "example": "http://cloudinary"
+          },
+          "createdBy": {
+            "type": "string",
+            "example": "admin"
+          },
+          "updatedBy": {
+            "type": "string",
+            "example": "admin"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2022-10-20T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2022-10-20T00:00:00.000Z"
+          }
+        }
+      },
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "requestBodies": {
+      "Motor": {
+        "description": "car object that needs to be added to the store",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Mobil"
+            }
+          }
+        }
+      }
+    }
+  }
 }
